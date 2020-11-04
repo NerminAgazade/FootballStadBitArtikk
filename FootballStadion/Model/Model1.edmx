@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="FootballStadiumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="nchar" MaxLength="100" />
+          <Property Name="Password" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fullname" Type="nchar" MaxLength="100" />
+          <Property Name="Phone" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Customer_to_Rooms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomsId" Type="int" />
+          <Property Name="CustomerId" Type="int" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rezerv_to_Rooms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoomsId" Type="int" />
+          <Property Name="RezervId" Type="int" />
+        </EntityType>
+        <EntityType Name="Rezerve">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PlayDate" Type="datetime" />
+          <Property Name="FromTime" Type="datetime" />
+          <Property Name="ToTime" Type="datetime" />
+          <Property Name="Price" Type="nchar" MaxLength="100" />
+          <Property Name="CustomerId" Type="int" />
+          <Property Name="StadiumId" Type="int" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Number" Type="int" />
+        </EntityType>
+        <EntityType Name="Stadium">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="100" />
+          <Property Name="Count" Type="int" />
+        </EntityType>
+        <EntityType Name="Workers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nchar" MaxLength="100" />
+          <Property Name="Password" Type="nchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Customer_to_Rooms_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_to_Rooms">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_to_Rooms_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_to_Rooms">
+              <PropertyRef Name="RoomsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerv_to_Rooms_Rezerve">
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="0..1" />
+          <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezerve">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerv_to_Rooms">
+              <PropertyRef Name="RezervId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerv_to_Rooms_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerv_to_Rooms">
+              <PropertyRef Name="RoomsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerve_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerve">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerve_Stadium">
+          <End Role="Stadium" Type="Self.Stadium" Multiplicity="0..1" />
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stadium">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerve">
+              <PropertyRef Name="StadiumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FootballStadiumModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer_to_Rooms" EntityType="Self.Customer_to_Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezerv_to_Rooms" EntityType="Self.Rezerv_to_Rooms" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rezerve" EntityType="Self.Rezerve" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stadium" EntityType="Self.Stadium" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Workers" EntityType="Self.Workers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Customer_to_Rooms_Customer" Association="Self.FK_Customer_to_Rooms_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_to_Rooms_Room" Association="Self.FK_Customer_to_Rooms_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerv_to_Rooms_Rezerve" Association="Self.FK_Rezerv_to_Rooms_Rezerve">
+            <End Role="Rezerve" EntitySet="Rezerve" />
+            <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerv_to_Rooms_Room" Association="Self.FK_Rezerv_to_Rooms_Room">
+            <End Role="Room" EntitySet="Room" />
+            <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerve_Customer" Association="Self.FK_Rezerve_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Rezerve" EntitySet="Rezerve" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerve_Stadium" Association="Self.FK_Rezerve_Stadium">
+            <End Role="Stadium" EntitySet="Stadium" />
+            <End Role="Rezerve" EntitySet="Rezerve" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FootballStadiumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fullname" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Customer_to_Rooms" Relationship="Self.FK_Customer_to_Rooms_Customer" FromRole="Customer" ToRole="Customer_to_Rooms" />
+          <NavigationProperty Name="Rezerves" Relationship="Self.FK_Rezerve_Customer" FromRole="Customer" ToRole="Rezerve" />
+        </EntityType>
+        <EntityType Name="Customer_to_Rooms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomsId" Type="Int32" />
+          <Property Name="CustomerId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Customer_to_Rooms_Customer" FromRole="Customer_to_Rooms" ToRole="Customer" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_Customer_to_Rooms_Room" FromRole="Customer_to_Rooms" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Rezerv_to_Rooms">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoomsId" Type="Int32" />
+          <Property Name="RezervId" Type="Int32" />
+          <NavigationProperty Name="Rezerve" Relationship="Self.FK_Rezerv_to_Rooms_Rezerve" FromRole="Rezerv_to_Rooms" ToRole="Rezerve" />
+          <NavigationProperty Name="Room" Relationship="Self.FK_Rezerv_to_Rooms_Room" FromRole="Rezerv_to_Rooms" ToRole="Room" />
+        </EntityType>
+        <EntityType Name="Rezerve">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PlayDate" Type="DateTime" Precision="3" />
+          <Property Name="FromTime" Type="DateTime" Precision="3" />
+          <Property Name="ToTime" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="CustomerId" Type="Int32" />
+          <Property Name="StadiumId" Type="Int32" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Rezerve_Customer" FromRole="Rezerve" ToRole="Customer" />
+          <NavigationProperty Name="Rezerv_to_Rooms" Relationship="Self.FK_Rezerv_to_Rooms_Rezerve" FromRole="Rezerve" ToRole="Rezerv_to_Rooms" />
+          <NavigationProperty Name="Stadium" Relationship="Self.FK_Rezerve_Stadium" FromRole="Rezerve" ToRole="Stadium" />
+        </EntityType>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="Int32" />
+          <NavigationProperty Name="Customer_to_Rooms" Relationship="Self.FK_Customer_to_Rooms_Room" FromRole="Room" ToRole="Customer_to_Rooms" />
+          <NavigationProperty Name="Rezerv_to_Rooms" Relationship="Self.FK_Rezerv_to_Rooms_Room" FromRole="Room" ToRole="Rezerv_to_Rooms" />
+        </EntityType>
+        <EntityType Name="Stadium">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Count" Type="Int32" />
+          <NavigationProperty Name="Rezerves" Relationship="Self.FK_Rezerve_Stadium" FromRole="Stadium" ToRole="Rezerve" />
+        </EntityType>
+        <EntityType Name="Worker">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Customer_to_Rooms_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_to_Rooms">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerve_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerve">
+              <PropertyRef Name="CustomerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Customer_to_Rooms_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Customer_to_Rooms">
+              <PropertyRef Name="RoomsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerv_to_Rooms_Rezerve">
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="0..1" />
+          <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rezerve">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerv_to_Rooms">
+              <PropertyRef Name="RezervId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerv_to_Rooms_Room">
+          <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+          <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerv_to_Rooms">
+              <PropertyRef Name="RoomsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Rezerve_Stadium">
+          <End Role="Stadium" Type="Self.Stadium" Multiplicity="0..1" />
+          <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stadium">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Rezerve">
+              <PropertyRef Name="StadiumId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FootballStadiumEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Customer_to_Rooms" EntityType="Self.Customer_to_Rooms" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <EntitySet Name="Rezerv_to_Rooms" EntityType="Self.Rezerv_to_Rooms" />
+          <EntitySet Name="Rezerves" EntityType="Self.Rezerve" />
+          <EntitySet Name="Rooms" EntityType="Self.Room" />
+          <EntitySet Name="Stadia" EntityType="Self.Stadium" />
+          <EntitySet Name="Workers" EntityType="Self.Worker" />
+          <AssociationSet Name="FK_Customer_to_Rooms_Customer" Association="Self.FK_Customer_to_Rooms_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerve_Customer" Association="Self.FK_Rezerve_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Rezerve" EntitySet="Rezerves" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Customer_to_Rooms_Room" Association="Self.FK_Customer_to_Rooms_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerv_to_Rooms_Rezerve" Association="Self.FK_Rezerv_to_Rooms_Rezerve">
+            <End Role="Rezerve" EntitySet="Rezerves" />
+            <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerv_to_Rooms_Room" Association="Self.FK_Rezerv_to_Rooms_Room">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Rezerve_Stadium" Association="Self.FK_Rezerve_Stadium">
+            <End Role="Stadium" EntitySet="Stadia" />
+            <End Role="Rezerve" EntitySet="Rezerves" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FootballStadiumModelStoreContainer" CdmEntityContainer="FootballStadiumEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer_to_Rooms">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Customer_to_Rooms">
+              <MappingFragment StoreEntitySet="Customer_to_Rooms">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoomsId" ColumnName="RoomsId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezerv_to_Rooms">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Rezerv_to_Rooms">
+              <MappingFragment StoreEntitySet="Rezerv_to_Rooms">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="RoomsId" ColumnName="RoomsId" />
+                <ScalarProperty Name="RezervId" ColumnName="RezervId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rezerves">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Rezerve">
+              <MappingFragment StoreEntitySet="Rezerve">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PlayDate" ColumnName="PlayDate" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="StadiumId" ColumnName="StadiumId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rooms">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Room">
+              <MappingFragment StoreEntitySet="Room">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Number" ColumnName="Number" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stadia">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Stadium">
+              <MappingFragment StoreEntitySet="Stadium">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Count" ColumnName="Count" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workers">
+            <EntityTypeMapping TypeName="FootballStadiumModel.Worker">
+              <MappingFragment StoreEntitySet="Workers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

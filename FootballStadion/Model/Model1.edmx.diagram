@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="a95199a06a9244a2910496a65a3366c4" Name="Diagram1">
+        <EntityTypeShape EntityType="FootballStadiumModel.Admin" Width="1.5" PointX="0.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Customer" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Customer_to_Rooms" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Report" Width="1.5" PointX="2.75" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Rezerv_to_Rooms" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Rezerve" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Room" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Stadium" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Worker" Width="1.5" PointX="4.75" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Customer_to_Rooms_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Rezerve_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Customer_to_Rooms_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Rezerv_to_Rooms_Rezerve" ManuallyRouted="false" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Rezerv_to_Rooms_Room" ManuallyRouted="false" />
+        <AssociationConnector Association="FootballStadiumModel.FK_Rezerve_Stadium" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
