@@ -5,16 +5,24 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Username" Type="nvarchar" MaxLength="100" />
-    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="Username" Type="nchar" MaxLength="100" />
+    <Property Name="Password" Type="nchar" MaxLength="100" />
   </EntityType>
-  <EntityType Name="Customers">
+  <EntityType Name="Customer">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Fullname" Type="nvarchar" MaxLength="100" />
-    <Property Name="Phone" Type="nvarchar" MaxLength="100" />
+    <Property Name="Fullname" Type="nchar" MaxLength="100" />
+    <Property Name="Phone" Type="nchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="Customer_to_Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoomsId" Type="int" />
+    <Property Name="CustomerId" Type="int" />
   </EntityType>
   <EntityType Name="Report">
     <Key>
@@ -22,127 +30,154 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
-  <EntityType Name="Rezerves">
+  <EntityType Name="Rezerv_to_Rooms">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PlayDate" Type="date" />
+    <Property Name="RoomsId" Type="int" />
+    <Property Name="RezervId" Type="int" />
+  </EntityType>
+  <EntityType Name="Rezerve">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PlayDate" Type="datetime" />
     <Property Name="FromTime" Type="datetime" />
     <Property Name="ToTime" Type="datetime" />
-    <Property Name="Price" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Price" Type="nchar" MaxLength="100" />
     <Property Name="CustomerId" Type="int" />
     <Property Name="StadiumId" Type="int" />
-    <Property Name="RoomsId" Type="int" />
   </EntityType>
-  <EntityType Name="Rooms">
+  <EntityType Name="Room">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Number" Type="nvarchar" MaxLength="100" />
+    <Property Name="Number" Type="int" />
   </EntityType>
   <EntityType Name="Stadium">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Name" Type="nchar" MaxLength="100" />
+    <Property Name="Count" Type="int" />
   </EntityType>
   <EntityType Name="Workers">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="FullName" Type="nvarchar" MaxLength="100" />
-    <Property Name="Password" Type="nvarchar" MaxLength="100" />
+    <Property Name="FullName" Type="nchar" MaxLength="100" />
+    <Property Name="Password" Type="nchar" MaxLength="100" />
   </EntityType>
-  <Association Name="FK_Rezerves_Customers">
-    <End Role="Customers" Type="Self.Customers" Multiplicity="0..1" />
-    <End Role="Rezerves" Type="Self.Rezerves" Multiplicity="*" />
+  <Association Name="FK_Customer_to_Rooms_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Customers">
+      <Principal Role="Customer">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Rezerves">
+      <Dependent Role="Customer_to_Rooms">
         <PropertyRef Name="CustomerId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Rezerves_Rooms">
-    <End Role="Rooms" Type="Self.Rooms" Multiplicity="0..1" />
-    <End Role="Rezerves" Type="Self.Rezerves" Multiplicity="*" />
+  <Association Name="FK_Customer_to_Rooms_Room">
+    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+    <End Role="Customer_to_Rooms" Type="Self.Customer_to_Rooms" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Rooms">
+      <Principal Role="Room">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Rezerves">
+      <Dependent Role="Customer_to_Rooms">
         <PropertyRef Name="RoomsId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Rezerves_Stadium">
+  <Association Name="FK_Rezerv_to_Rooms_Rezerve">
+    <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="0..1" />
+    <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rezerve">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezerv_to_Rooms">
+        <PropertyRef Name="RezervId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezerv_to_Rooms_Room">
+    <End Role="Room" Type="Self.Room" Multiplicity="0..1" />
+    <End Role="Rezerv_to_Rooms" Type="Self.Rezerv_to_Rooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezerv_to_Rooms">
+        <PropertyRef Name="RoomsId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezerve_Customer">
+    <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+    <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Customer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Rezerve">
+        <PropertyRef Name="CustomerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Rezerve_Stadium">
     <End Role="Stadium" Type="Self.Stadium" Multiplicity="0..1" />
-    <End Role="Rezerves" Type="Self.Rezerves" Multiplicity="*" />
+    <End Role="Rezerve" Type="Self.Rezerve" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Stadium">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="Rezerves">
+      <Dependent Role="Rezerve">
         <PropertyRef Name="StadiumId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
-  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="version" Type="int" Mode="In" />
-    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
-  </Function>
-  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-  </Function>
-  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
-    <Parameter Name="owner_id" Type="int" Mode="In" />
-    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
-  </Function>
-  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="FootballStadiumModelStoreContainer">
     <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Customer_to_Rooms" EntityType="Self.Customer_to_Rooms" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Rezerves" EntityType="Self.Rezerves" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Rooms" EntityType="Self.Rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rezerv_to_Rooms" EntityType="Self.Rezerv_to_Rooms" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Rezerve" EntityType="Self.Rezerve" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Room" EntityType="Self.Room" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Stadium" EntityType="Self.Stadium" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Workers" EntityType="Self.Workers" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Rezerves_Customers" Association="Self.FK_Rezerves_Customers">
-      <End Role="Customers" EntitySet="Customers" />
-      <End Role="Rezerves" EntitySet="Rezerves" />
+    <AssociationSet Name="FK_Customer_to_Rooms_Customer" Association="Self.FK_Customer_to_Rooms_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
     </AssociationSet>
-    <AssociationSet Name="FK_Rezerves_Rooms" Association="Self.FK_Rezerves_Rooms">
-      <End Role="Rooms" EntitySet="Rooms" />
-      <End Role="Rezerves" EntitySet="Rezerves" />
+    <AssociationSet Name="FK_Customer_to_Rooms_Room" Association="Self.FK_Customer_to_Rooms_Room">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Customer_to_Rooms" EntitySet="Customer_to_Rooms" />
     </AssociationSet>
-    <AssociationSet Name="FK_Rezerves_Stadium" Association="Self.FK_Rezerves_Stadium">
+    <AssociationSet Name="FK_Rezerv_to_Rooms_Rezerve" Association="Self.FK_Rezerv_to_Rooms_Rezerve">
+      <End Role="Rezerve" EntitySet="Rezerve" />
+      <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezerv_to_Rooms_Room" Association="Self.FK_Rezerv_to_Rooms_Room">
+      <End Role="Room" EntitySet="Room" />
+      <End Role="Rezerv_to_Rooms" EntitySet="Rezerv_to_Rooms" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezerve_Customer" Association="Self.FK_Rezerve_Customer">
+      <End Role="Customer" EntitySet="Customer" />
+      <End Role="Rezerve" EntitySet="Rezerve" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Rezerve_Stadium" Association="Self.FK_Rezerve_Stadium">
       <End Role="Stadium" EntitySet="Stadium" />
-      <End Role="Rezerves" EntitySet="Rezerves" />
+      <End Role="Rezerve" EntitySet="Rezerve" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

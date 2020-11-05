@@ -145,6 +145,7 @@
             this.cmbrooms.Name = "cmbrooms";
             this.cmbrooms.Size = new System.Drawing.Size(273, 24);
             this.cmbrooms.TabIndex = 9;
+            this.cmbrooms.SelectedIndexChanged += new System.EventHandler(this.cmbrooms_SelectedIndexChanged);
             this.cmbrooms.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.cmbrooms_KeyPress);
             // 
             // dateplays

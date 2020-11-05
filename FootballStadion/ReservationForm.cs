@@ -44,7 +44,7 @@ namespace FootballStadion
         }
         public void FillCmbRooms() 
         {
-            cmbrooms.Items.AddRange(db.Rooms.Select(c => c.Number).ToArray());
+            cmbrooms.Items.AddRange(Convert.ToInt32(db.Rooms.Select(c => c.Number)).ToArray());
 
         }
 
@@ -78,13 +78,13 @@ namespace FootballStadion
                     int cstId = db.Customers.First(c => c.Fullname == cstname).Id;
                    Rezerve newRezerv = new Rezerve()
                     {
-                       RoomId = selectrooms.Id,
+                      RoomId = selectrooms.Id,
                         StadiumId = stadId,
                         CustomerId = cstId,
-                         PlayDate= dateplays,
+                         PlayDate=dateplays,
                        FromTime = datefrom,
                        ToTime =datetotime,
-                        Price = price
+                        Price =Convert.ToString( price)
                     };
                     db.Rezerves.Add(newRezerv);
                     db.SaveChanges();
@@ -139,7 +139,7 @@ namespace FootballStadion
             for (int i = checkrooms.Items.Count - 1; i >= 0; i--)
             {
                 string RoomName = checkrooms.Items[i].ToString();
-                Room selectedRoom = db.Rooms.FirstOrDefault(rm => rm.Number == RoomName);
+                Room selectedRoom = db.Rooms.FirstOrDefault(Convert.ToString(rm => rm.Number == RoomName));
                 int RoomId;
                 if (selectedRoom != null)
                 {
@@ -159,7 +159,17 @@ namespace FootballStadion
             }
             return roomListId;
         }
+        
 
+        private void cmbrooms_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int rmbnumber = Convert.ToInt32(cmbrooms.Text);
+            Room selectedRoom = db.Rooms.FirstOrDefault(x => x.Number == rmbnumber);
+            if (!checkrooms.Items.Contains(rmbnumber))
+            {
+               checkrooms.Items.Add(rmbnumber + "|" + selectedRoom.Id, true);
+            }
+        }
     }
 }
 

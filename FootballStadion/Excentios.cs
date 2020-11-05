@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,10 @@ namespace FootballStadion
             }
             return true;
         }
-
+        public void DisplaySomething(string s)
+        {
+            System.Console.WriteLine(s);
+        }
         public static string HasMe(string pass)
         {
             byte[] myByte = new ASCIIEncoding().GetBytes(pass);

@@ -9,7 +9,7 @@
         <EntityTypeShape EntityType="FootballStadiumModel.Customer" Width="1.5" PointX="0.75" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FootballStadiumModel.Customer_to_Rooms" Width="1.5" PointX="3" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FootballStadiumModel.Report" Width="1.5" PointX="2.75" PointY="6.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="FootballStadiumModel.Rezerv_to_Rooms" Width="1.5" PointX="8.25" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FootballStadiumModel.Rezerv_to_Rooms" Width="2.375" PointX="8.25" PointY="3.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FootballStadiumModel.Rezerve" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="FootballStadiumModel.Room" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FootballStadiumModel.Stadium" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
